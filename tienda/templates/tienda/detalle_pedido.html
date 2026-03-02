@@ -1,0 +1,17 @@
+{% extends "tienda/base.html" %}
+
+{% block content %}
+<h1>Lista de Pedidos</h1>
+
+<ul>
+    {% for pedido in pedidos %}
+        <li>
+            <a href="{% url 'tienda:detalle_pedido' pedido.pk %}">
+                Pedido #{{ pedido.pk }} - {{ pedido.cliente.nombre }} - {{ pedido.estado }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
+

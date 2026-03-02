@@ -30,3 +30,22 @@ def detalle_producto(request, pk):
 
 
 
+'''
+
+BORRADOR PEDIDOS
+'''
+
+'''
+Vista para listar pedidos
+'''
+def lista_pedidos(request):
+    pedidos = Pedido.objects.all().order_by("-fecha")
+    return render(request, "tienda/lista_pedidos.html", {"pedidos": pedidos})
+
+
+'''
+Vista para detalle de pedido
+'''
+def detalle_pedido(request, pk):
+    pedido = get_object_or_404(Pedido, pk=pk)
+    return render(request, "tienda/detalle_pedido.html", {"pedido": pedido})
