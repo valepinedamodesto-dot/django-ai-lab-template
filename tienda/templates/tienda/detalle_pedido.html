@@ -1,17 +1,51 @@
 {% extends "tienda/base.html" %}
+{% block title %}Pedido # {{pedido.id}} {% endblock %}
 
 {% block content %}
-<h1>Lista de Pedidos</h1>
+
+<h1>Pedido # {{pedido.id}}</h1>
+<p><b>Cliente:</b> {{pedido.cliente.nombre }}</p>
+<p><b>Estado:</b> {{pedido.estado}}</p>
+
+
+<h3> Productos </h3>
 
 <ul>
-    {% for pedido in pedidos %}
-        <li>
-            <a href="{% url 'tienda:detalle_pedido' pedido.pk %}">
-                Pedido #{{ pedido.pk }} - {{ pedido.cliente.nombre }} - {{ pedido.estado }}
-            </a>
-        </li>
-    {% endfor %}
+        {%  for p in  pedido.productos.all %}
+            <li>{{p.nombre }} - $ {{p.precio |floatformat:2 }}</li>
+
+        {% endfor %}
+
 </ul>
 
+
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
