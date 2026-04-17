@@ -5,10 +5,33 @@
 
 <h1>Pedido # {{pedido.id}}</h1>
 <p><b>Cliente:</b> {{pedido.cliente.nombre }}</p>
+<p><b>Fecha:</b> {{pedido.Fecha | date:"d/m/Y H:1" }}</p>
 <p><b>Estado:</b> {{pedido.estado}}</p>
 
 
 <h3> Productos </h3>
+
+{% if items %}
+    <table>
+        <tr>
+            <th class="encabezado">Producto</th>
+            <th class="encabezado">Cantidad</th>
+            <th class="encabezado"> Precio</th>
+            <th class="encabezado">Subtotal</th>
+
+        </tr>
+        {% for it in items %}
+            <tr>
+                <td>{{ it.producto.nombre }} </td>
+                <td>{{ it.cantidad }} </td>
+                <td>{{ it.precio_unitario | floatformat:2 }} </td>
+                <td>{{ it.inline_total | floatformat:2  }} </td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+
 
 <ul>
         {%  for p in  pedido.productos.all %}
@@ -20,6 +43,10 @@
 
 
 {% endblock %}
+
+
+
+
 
 
 

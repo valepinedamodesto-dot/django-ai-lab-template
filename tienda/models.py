@@ -29,7 +29,6 @@ class Pedido(models.Model):
    ]
 
    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name="pedidos")
-   productos = models.ManyToManyField(Producto, related_name="pedidos")
    fecha = models.DateTimeField(auto_now_add=True)
    estado = models.CharField(max_length=7, choices=ESTADOS, default="CREADO")
 
@@ -39,5 +38,17 @@ class Pedido(models.Model):
 
 
 
+class PedidoItem(models.Model):
+   pedido = models.ForeignKey( Pedido, on_delete=models.CASCADE, related_name="items")
+   producto = models.ForeignKey( Producto, on_delete=models.CASCADE, 
+                               related_name="items")
+   cantidad = models.PositiveBigIntegerField(default=1)
+   precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
 
+   class Meta:
+      '''
+      Nos permitirá que existan dos filas con la misma combinación de pedido y 
+      producto.
+      '''
+      unique_together = ("pedido", "producto")
 

@@ -1,0 +1,65 @@
+{% extends "tienda/base.html" %}
+{% block title %}Lista de clientes{% endblock %}
+
+{% block content %}
+
+<h1>Clientes</h1>
+
+<!-- BOTÓN CREAR -->
+<p>
+    <a href="{% url 'tienda:crear_cliente' %}" class="btn primary">
+        + Añadir cliente
+    </a>
+</p>
+
+<hr>
+
+<!-- LISTA -->
+{% for cliente in clientes %}
+
+    <div class="cliente-item" style="padding: 12px; border-bottom: 1px solid #ccc;">
+        
+        <!-- DATOS -->
+        <h3>
+            {{ cliente.nombre_completo|default:cliente.nombre }}
+        </h3>
+
+        <p>Email: {{ cliente.email }}</p>
+
+        <p>
+            Estado:
+            {% if cliente.activo %}
+                Activo
+            {% else %}
+                Inactivo
+            {% endif %}
+        </p>
+
+        <!-- BOTONES -->
+        <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
+
+            <a href="{% url 'tienda:detalle_cliente' cliente.id %}" class="btn info">
+                Detalle
+            </a>
+
+            <a href="{% url 'tienda:editar_cliente' cliente.id %}" class="btn warning">
+                Editar
+            </a>
+
+            <a href="{% url 'tienda:eliminar_cliente' cliente.id %}" 
+               class="btn danger"
+               onclick="return confirm('¿Seguro que deseas eliminar este cliente?');">
+                Eliminar
+            </a>
+
+        </div>
+
+    </div>
+
+{% empty %}
+
+    <p>No hay clientes registrados.</p>
+
+{% endfor %}
+
+{% endblock %}

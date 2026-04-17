@@ -1,20 +1,73 @@
 {% extends "tienda/base.html" %}
-{%block title%}Cliente: {{cliente.nombre}}{% endblock %}
+{% block title %}Detalle cliente{% endblock %}
 
 {% block content %}
-<h1>{{cliente.nombre}}</h1>
-<p>Email: {{cliente.email}}</p>
-<h3>Pedidos</h3>
-<ul>
-    {% for p in pedidos %}
-        <li>
-            <a href="{% ur 'tienda:detalle_pedido' p.pk %}">
-            Pedido # {{ p.id}} - {{p.estado }}
-            </a>
-        </li>
-    {% empty %} 
-    <li>El cliente no tiene pedidos.</li>
-    {% endfor %}
-</ul>
-{% endblock %}    
 
+<h1>Detalle del cliente</h1>
+
+<!-- DATOS DEL CLIENTE -->
+<div style="padding: 15px; border: 1px solid #ccc; margin-bottom: 20px;">
+    <p><strong>ID:</strong> {{ cliente.id }}</p>
+    
+    <p>
+        <strong>Nombre completo:</strong>
+        {{ cliente.nombre_completo|default:cliente.nombre }}
+    </p>
+
+    <p><strong>Email:</strong> {{ cliente.email }}</p>
+
+    <p>
+        <strong>Estado:</strong>
+        {% if cliente.activo %}
+             Activo
+        {% else %}
+             Inactivo
+        {% endif %}
+    </p>
+
+    <p><strong>Fecha registro:</strong> {{ cliente.fecha_registro }}</p>
+</div>
+
+<hr>
+
+
+<h2>Pedidos del cliente</h2>
+
+{% if pedidos %}
+
+    <ul style="padding-left: 20px;">
+        {% for pedido in pedidos %}
+            <li style="margin-bottom: 10px;">
+                <strong>Pedido #{{ pedido.id }}</strong><br>
+                Fecha: {{ pedido.fecha }}<br>
+                Total: ${{ pedido.total }}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% else %}
+
+    <p>Este cliente no tiene pedidos registrados.</p>
+
+{% endif %}
+
+<hr>
+
+
+<div style="margin-top: 20px;">
+
+    <a href="{% url 'tienda:lista_clientes' %}" class="btn">
+        Volver
+    </a>
+
+    <a href="{% url 'tienda:editar_cliente' cliente.id %}" class="btn warning">
+        Editar cliente
+    </a>
+
+    <a href="{% url 'tienda:eliminar_cliente' cliente.id %}" class="btn danger">
+        Eliminar cliente
+    </a>
+
+</div>
+
+{% endblock %}
